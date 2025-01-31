@@ -22,15 +22,26 @@ if (!fs.existsSync(configFile)) {
     process.exit(1);
 }
 
-const config = fs.readFileSync(configFile, "utf-8")
-    .split("\n")
-    .reduce((acc, line) => {
-        const [key, value] = line.split("=");
-        if (key && value) {
-            acc[key.trim()] = value.trim();
-        }
-        return acc;
-    }, {});
+const config = {};
+
+// Read the config file
+const data = fs.readFileSync(configFile, 'utf8');
+
+// Parse the lines
+data.split('\n').forEach(line => {
+    const trimmedLine = line.trim();
+
+    // Skip empty lines and comments
+    if (!trimmedLine || trimmedLine.startsWith('#')) return;
+
+    // Split only at the first '='
+    const [key, ...valueParts] = trimmedLine.split('=');
+    const value = valueParts.join('='); // Rejoin the remaining parts
+
+    // Save the key-value pair
+    config[key.trim()] = value.replace(/\\n/g, '\n');
+});
+
 
 const { 
     HOST: dvhost_host, 
@@ -43,6 +54,7 @@ const {
     PUBLIC_KEY_PATH, // مسیر گواهی عمومی
     PRIVATE_KEY_PATH, // مسیر کلید خصوصی
     TELEGRAM_URL,
+    BACKUP,
 } = config;
 
 const dvhost_loginData = { username: USERNAME, password: PASSWORD };
@@ -120,7 +132,12 @@ app.get("/sub/:subId", async (req, res) => {
         const expiryTimeJalali = convertToJalali(trafficData.obj.expiryTime);
 
         const suburl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        const suburl_content = await fetchUrlContent(SUBSCRIPTION + targetSubId);
+        let suburl_content = await fetchUrlContent(SUBSCRIPTION + targetSubId);
+        suburl_content += "\n" + BACKUP;
+        let random = "&custom=encode" + Math.trunc(Math.random() * 343532152345);
+        const result = suburl_content.replace(/(.*)#/, `$1${random}#`);
+        suburl_content = Buffer.from(result).toString('base64')
+	    console.log("suburl_content",suburl_content);
 
         if (userAgent && isBrowserRequest(userAgent)) {
             res.render("sub", {
