@@ -132,6 +132,7 @@ app.get("/sub/:subId", async (req, res) => {
                     ...trafficData.obj,
                     expiryTimeJalali,
                     suburl,
+                    suburl_content,
                     get_backup_link: Backup_link,
                     TELEGRAM_URL
                 },
