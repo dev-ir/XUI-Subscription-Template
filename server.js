@@ -68,7 +68,8 @@ function isBrowserRequest(userAgent) {
     return browserKeywords.some(keyword => userAgent.includes(keyword));
 }
 
-app.get("/sub/:subId", async (req, res) => {
+//app.get("/sub/:subId", async (req, res) => {
+app.get("/" + SUBSCRIPTION.split('/')[3] + "/:subId", async (req, res) => {
     try {
         const targetSubId = req.params.subId;
         const userAgent = req.headers['user-agent'];
