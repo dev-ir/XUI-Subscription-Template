@@ -1,126 +1,453 @@
 <!DOCTYPE html>
-<html lang="fa">
-
-<head>
+<html lang="fa" dir="rtl">
+  <head>
     <title>User information : <%= data.email %></title>
-    <meta charset="UTF-8">
-    <link rel="icon" type="image/x-icon" href="assets/img/icons/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/img/icons/favicon.ico"
-        media="(prefers-color-scheme: light)" />
-    <link href="https://cdn.jsdelivr.net/npm/yekan-font@1.0.0/css/yekan-font.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link href="https://ios.v4b.top/assets/css/main.css?ver=17374638191438" rel="stylesheet">
-    <meta name="theme-color" content="#1c1f30">
-</head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="assets/img/icons/favicon.ico" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <!-- <link
+      href="https://ios.v4b.top/assets/css/main.css?ver=17374638191438"
+      rel="stylesheet" /> -->
+    <meta name="theme-color" content="#1c1f30" />
+    <style>
 
-<body style="background: #1c1f30;">
+      @font-face {
+        font-family: IranYekan;
+        src: url("fonts/IRANYekanXFaNum-Regular.woff");
+      }
+      body {
+        background: #edf6f9;
+        font-family: IranYekan, Arial, "Helvetica Neue", Helvetica, sans-serif;
+        font-size: 16px;
+        margin: 0;
+        padding: 0;
+        direction: rtl;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        text-align: center;
+      }
+      .container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+        padding: 10px;
+        width: 90%;
+        max-width: 800px;
+        animation: fadeIn 0.5s ease-in-out;
+        margin: 20px 0;
+      }
+      .logo img {
+        width: 95px;
+        height: auto;
+        margin: 0 auto 10px;
+        border-radius: 100%;
+      }
+
+      .panel-title {
+        background-color: #83c5be;
+        font-size: 20px;
+        padding: 20px 0;
+        border-radius: 8px;
+        color: #fff;
+      }
+      h3 {
+        color: #000;
+        background: #ccc;
+        padding: 10px 0;
+        border-radius: 8px;
+        font-size: 16px;
+      }
+      .info-box {
+        background-color: #fff;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
+      }
+      .copy-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding: 10px 15px;
+        border-radius: 8px;
+        position: relative;
+        gap: 10px;
+      }
+      .copy-container textarea {
+        flex: 1;
+        resize: none;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 14px;
+        background: #ccc;
+        color: #000;
+        min-width: 200px;
+        max-width: 100%;
+        overflow-x: auto;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+      }
+      .copy-container .copy-icon {
+        background: #000;
+        border-radius: 50%;
+        color: #fff;
+        font-size: 18px;
+        padding: 10px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+      }
+      .copy-icon svg {
+        width: 26px;
+        height: 26px;
+        color: #fff;
+      }
+      .info-box {
+        width: 90%;
+        margin: 20px auto;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: stretch; /* ØªØ±Ø§Ø²Ø¨Ù†Ø¯ÛŒ Ø§Ø±ØªÙØ§Ø¹ ÛŒÚ©Ø³Ø§Ù† */
+        gap: 15px;
+      }
+
+      .info-item {
+        background-color: #ddd;
+        color: #000;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .copy-container .copy-icon:hover {
+        background: #000000cc;
+      }
+      .info-item {
+        flex: 1 1 calc(50% - 10px);
+        min-width: 230px;
+        border-radius: 8px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .info-item .info-icon,
+      .calender-icon,
+      .value-icon,
+      .value-buy {
+        width: 26px;
+        height: 26px;
+      }
+      .section-title {
+        color: #000;
+        font-size: 20px;
+        font-weight: 700;
+        text-align: start;
+      }
+      .info-box.\.applications {
+        flex-direction: column;
+      }
+      .applications-wrapper {
+        display: flex;
+        gap: 10px;
+      }
+      .applications-wrapper .download-btn {
+        font-size: 14px;
+        text-decoration: none;
+        color: #fff;
+        background: orange;
+        padding: 10px 12px;
+        border-radius: 50px;
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      .action-buttons .telegram-support {
+        text-decoration: none;
+        display: flex;
+        gap: 5px;
+        background: lightblue;
+        font-size: 14px;
+        padding: 12px 10px;
+        border-radius: 20px;
+      }
+      .action-buttons .telegram-support .telegram-icon {
+        width: 20px;
+        height: 20px;
+      }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .modal {
+        background: #444;
+        border-radius: 10px;
+        padding: 20px;
+        color: white;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        width: 300px;
+      }
+
+      .modal button {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #7bed6d;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+        font-family: "yekan";
+        color: #000;
+      }
+
+      .modal button:hover {
+        background: #2193b0;
+      }
+
+      /* responsive */
+      @media (max-width: 768px) {
+        .info-box {
+          align-items: center;
+        }
+
+        .info-item {
+          flex: 1 1 100%;
+        }
+        .copy-container {
+          flex-wrap: wrap;
+        }
+
+        .copy-container textarea {
+          width: 100%;
+        }
+
+        .copy-container .copy-icon {
+          margin-top: 10px;
+          align-self: flex-end;
+        }
+        .applications-wrapper {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
     <div class="container">
-        <div class="logo">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTumgBZSlZ1HxjNuj4oaHaPkR5EzlL9UQpOMA&s"
-                alt="لوگو ققنوس">
+      <h1 class="panel-title">پنل اشتراک</h1>
+      <div class="logo">
+        <img
+          src="data:image/jpeg;base64,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"
+          alt="لوگو" />
+      </div>
+      <h3>شناسه <%= data.email %> خوش آمدید</h3>
+      <div class="info-box">
+        <p class="your-config">کانفیگ شما</p>
+        <div class="copy-container">
+          <textarea id="copy-textarea" rows="2"><%= data.suburl %></textarea>
+          <div class="copy-icon" onclick="copyToClipboard()">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1"
+              stroke="currentColor"
+              class="copy">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" />
+            </svg>
+          </div>
         </div>
-        <h3 style="color: #ffce00;">شناسه <%= data.email %> خوش آمدید </h3>
-        <div class="info-box">
-            <div class="copy-container">
-                <textarea id="copy-textarea" rows="2"><%= data.suburl %></textarea>
-                <div class="copy-icon" onclick="copyToClipboard()">
-                    <i class="fas fa-copy"></i>
-                </div>
-            </div>
+      </div>
+      <div class="info-box">
+        <div class="info-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="info-icon">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+          </svg>
+          <p>وضعیت اکانت : <%= data.enable ? 'فعال' : 'غیرفعال' %></p>
         </div>
-        <div class="info-box">
-            <div class="info-item">
-                <i class="fas fa-hourglass-half"></i>
-                <p> وضعیت اکانت : <%= data.enable ? 'فعال' : 'غیرفعال' %></p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-calendar-alt"></i>
-                <p> روزهای باقیمانده :
-                    <% 
-                    try {
-                        if (!data || typeof data.expiryTime === 'undefined') {
-                            throw new Error("data یا expiryTime تعریف نشده است.");
-                        }
-                        const expiryTime = parseInt(data.expiryTime, 10);
-                        if (isNaN(expiryTime)) {
-                            throw new Error("expiryTime یک عدد معتبر نیست.");
-                        }
-                        const currentTime = Date.now();                
-                        if (expiryTime === 0) {
-                            %>
-                            بدون محدودیت
-                            <%
-                        } 
-                        else if (expiryTime > currentTime) {
-                            const remainingDays = Math.floor((expiryTime - currentTime) / (1000 * 60 * 60 * 24));
-                            %>
-                            <%= remainingDays + ' روز' %>
-                            <%
-                        } 
-                        else {
-                            %>
-                            منقضی شده
-                            <%
-                        }
-                    } catch (error) {
-                        console.error("خطا در محاسبه روزهای باقیمانده:", error.message);
-                        %>
-                        نامشخص
-                        <%
-                    }
-                    %>
-                </p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-chart-pie"></i>
-                <p>حجم مصرفی: <%= ( (data.up + data.down) / 1_073_741_824).toFixed(2) %> GB</p>
-            </div>
-            <div class="info-item">
-                <i class="fas fa-database"></i>
-                <p>حجم خریداری شده: <%= (data.total / 1_073_741_824).toFixed(2) %></p>
-            </div>
+        <div class="info-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="calender-icon">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6.75 2.994v2.25m10.5-2.25v2.25m-14.252 13.5V7.491a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v11.251m-18 0a2.25 2.25 0 0 0 2.25 2.25h13.5a2.25 2.25 0 0 0 2.25-2.25m-18 0v-7.5a2.25 2.25 0 0 1 2.25-2.25h13.5a2.25 2.25 0 0 1 2.25 2.25v7.5m-6.75-6h2.25m-9 2.25h4.5m.002-2.25h.005v.006H12v-.006Zm-.001 4.5h.006v.006h-.006v-.005Zm-2.25.001h.005v.006H9.75v-.006Zm-2.25 0h.005v.005h-.006v-.005Zm6.75-2.247h.005v.005h-.005v-.005Zm0 2.247h.006v.006h-.006v-.006Zm2.25-2.248h.006V15H16.5v-.005Z" />
+          </svg>
+
+          <p>
+            روزهای باقیمانده : <% try { if (!data || typeof data.expiryTime ===
+            'undefined') { throw new Error("data یا expiryTime تعریف نشده
+            است."); } const expiryTime = parseInt(data.expiryTime, 10); if
+            (isNaN(expiryTime)) { throw new Error("expiryTime یک عدد معتبر
+            نیست."); } const currentTime = Date.now(); if (expiryTime === 0) {
+            %> بدون محدودیت <% } else if (expiryTime > currentTime) { const
+            remainingDays = Math.floor((expiryTime - currentTime) / (1000 * 60 *
+            60 * 24)); %> <%= remainingDays + ' روز' %> <% } else { %> منقضی شده
+            <% } } catch (error) { console.error("خطا در محاسبه روزهای
+            باقیمانده:", error.message); %> نامشخص <% } %>
+          </p>
         </div>
-        <div class="action-buttons">
-            <a href="<%= data.TELEGRAM_URL %>?text=سلام من شناسه <%= data.email %> هستم" class="action-btn"
-                style="background: linear-gradient(145deg, #007BFF, #0056b3);">
-                <i class="fas fa-headset"></i>پشتیبانی در تلگرام
-            </a>
-            <!-- <a href="#" class="action-btn"
-                style="background: linear-gradient(145deg, #25D366, #1DA84D);"><i class="fab fa-whatsapp"></i>پشتیبانی
-                در واتس‌اپ</a> -->
+        <div class="info-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="value-icon">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 6.878V6a2.25 2.25 0 0 1 2.25-2.25h7.5A2.25 2.25 0 0 1 18 6v.878m-12 0c.235-.083.487-.128.75-.128h10.5c.263 0 .515.045.75.128m-12 0A2.25 2.25 0 0 0 4.5 9v.878m13.5-3A2.25 2.25 0 0 1 19.5 9v.878m0 0a2.246 2.246 0 0 0-.75-.128H5.25c-.263 0-.515.045-.75.128m15 0A2.25 2.25 0 0 1 21 12v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6c0-.98.626-1.813 1.5-2.122" />
+          </svg>
+
+          <p>
+            حجم مصرفی: <%= ( (data.up + data.down) / 1_073_741_824).toFixed(2)
+            %> GB
+          </p>
         </div>
+        <div class="info-item">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="value-buy">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21.75 17.25v-.228a4.5 4.5 0 0 0-.12-1.03l-2.268-9.64a3.375 3.375 0 0 0-3.285-2.602H7.923a3.375 3.375 0 0 0-3.285 2.602l-2.268 9.64a4.5 4.5 0 0 0-.12 1.03v.228m19.5 0a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3m19.5 0a3 3 0 0 0-3-3H5.25a3 3 0 0 0-3 3m16.5 0h.008v.008h-.008v-.008Zm-3 0h.008v.008h-.008v-.008Z" />
+          </svg>
+
+          <p>حجم خریداری شده: <%= (data.total / 1_073_741_824).toFixed(2) %></p>
+        </div>
+      </div>
+      <!-- applications -->
+      <div class="info-box .applications">
+        <p class="section-title">دانلود اپلیکیشن‌ها</p>
+        <div class="applications-wrapper">
+          <a
+            class="download-btn"
+            href="https://apps.apple.com/in/app/npv-tunnel/id1629465476"
+            target="_blank"
+            >NPV Tunnel (iOS)</a
+          >
+          <a
+            class="download-btn"
+            href="https://apps.apple.com/in/app/streisand/id645043567"
+            target="_blank"
+            >Streisand (iOS)</a
+          >
+          <a
+            class="download-btn"
+            href="https://play.google.com/store/apps/details?id=com.github.v2rayng.v2rayng"
+            target="_blank"
+            >V2rayNG (Android)</a
+          >
+        </div>
+      </div>
+      <!-- دانلود اپلیکیشن‌ها -->
+
+      <div class="action-buttons">
+        <a class="telegram-support" href="#">
+          پشتیبانی تلگرام
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="telegram-icon">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 12 3.269 3.125A59.769 59.769 0 0 1 21.485 12 59.768 59.768 0 0 1 3.27 20.875L5.999 12Zm0 0h7.5" />
+          </svg>
+        </a>
+      </div>
     </div>
 
     <script>
-        function copyToClipboard() {
-            const textarea = document.getElementById("copy-textarea");
-            const textToCopy = textarea.value;
+      function copyToClipboard() {
+        const textarea = document.getElementById("copy-textarea");
+        const textToCopy = textarea.value;
 
-            const tempTextarea = document.createElement("textarea");
-            tempTextarea.value = textToCopy;
-            document.body.appendChild(tempTextarea);
+        const tempTextarea = document.createElement("textarea");
+        tempTextarea.value = textToCopy;
+        document.body.appendChild(tempTextarea);
 
-            tempTextarea.select();
-            document.execCommand("copy");
+        tempTextarea.select();
+        document.execCommand("copy");
 
-            document.body.removeChild(tempTextarea);
+        document.body.removeChild(tempTextarea);
 
-            const modal = document.getElementById("modal-overlay");
-            modal.classList.add("active");
-        }
-        function closeModal() {
-            const modal = document.getElementById("modal-overlay");
-            modal.classList.remove("active");
-        }
+        const modal = document.getElementById("modal-overlay");
+        modal.classList.add("active");
+      }
+      function closeModal() {
+        const modal = document.getElementById("modal-overlay");
+        modal.classList.remove("active");
+      }
     </script>
     <!-- مدال -->
     <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-            <p>لینک شما کپی شد</p>
-            <button onclick="closeModal()">باشه</button>
-        </div>
+      <div class="modal">
+        <p>لینک شما کپی شد</p>
+        <button onclick="closeModal()">باشه</button>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
