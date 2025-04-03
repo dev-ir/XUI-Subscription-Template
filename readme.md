@@ -33,12 +33,11 @@ If you want to create your own template, go this route.
     <img width="100%" src="https://github.com/user-attachments/assets/629f455d-58c8-4b9b-b722-2948b39a9511" alt="Image">
 </p>
 
-
-## Languages
-
-- English
-
 ## Dynamic Variables
+
+<details>
+  <summary>Click for Dynamic Variables details</summary>
+
 The template uses the following dynamic variables to display user-specific information:
 
 | Variable                | Description                        |
@@ -54,6 +53,9 @@ The template uses the following dynamic variables to display user-specific infor
 | `<%= data.inboundId %>` | Inbound connection ID.             |
 
 Enjoy seamless and user-friendly subscription management with this template!
+</details>
+
+
 
 
 ## 🙏 Support with Crypto 
