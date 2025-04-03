@@ -1,5 +1,7 @@
 <h1 align="center"/>⚡️ Welcome to XUI Panel Subscription Template ⚡️</h1>
 
+> **If you need explanations in Persian, check out the [Readme for Farsi](readme-fa.md).**
+#
 > ** This is a custom subscription template designed for the XUI Panel, providing a clear view of service details, including usage, expiration date, and more. 
 
 **We don't need financial support, only Star (⭐) is enough, thank you.**
