@@ -49,6 +49,7 @@ const {
     SUB_HTTP_PORT = '3000',
     SUB_HTTPS_PORT = '443',
     TELEGRAM_URL = '',
+    WHATSAPP_URL = '',
     Backup_link: BACKUP_LINK = ""
 } = config;
 
@@ -130,6 +131,7 @@ app.get(`/${SUBSCRIPTION.split('/')[3]}/:subId`, async (req, res) => {
                     suburl,
                     suburl_content,
                     get_backup_link: BACKUP_LINK,
+                    WHATSAPP_URL,
                     TELEGRAM_URL,
                     DEFAULT_LANG
                 },
