@@ -7,6 +7,7 @@ import { fileURLToPath } from "url";
 import { toJalaali } from "jalaali-js";
 import https from 'https';
 import http from 'http';
+import speakeasy from 'speakeasy';
 
 const app = express();
 
@@ -50,10 +51,10 @@ const {
     SUB_HTTPS_PORT = '443',
     TELEGRAM_URL = '',
     WHATSAPP_URL = '',
-    Backup_link: BACKUP_LINK = ""
+    Backup_link: BACKUP_LINK = '',
+    TOTP_SECRET = '',
+    TWO_FACTOR = 'false'
 } = config;
-
-const dvhost_loginData = { username: USERNAME, password: PASSWORD };
 
 const convertToJalali = (timestamp) => {
     const date = new Date(timestamp);
@@ -64,7 +65,6 @@ const convertToJalali = (timestamp) => {
 const isBrowserRequest = (userAgent = '') =>
     BROWSER_KEYWORDS.some(keyword => userAgent.includes(keyword));
 
-// 5. Middleware و تنظیمات اکسپرس
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, `views/templates/${TEMPLATE_NAME}`));
 app.set("view engine", "ejs");
@@ -85,12 +85,26 @@ app.get(`/${SUBSCRIPTION.split('/')[3]}/:subId`, async (req, res) => {
         const { subId: targetSubId } = req.params;
         const userAgent = req.headers['user-agent'] || '';
 
-        // 8. استفاده از Promise.all برای درخواست‌های موازی
+        let loginPayload = {
+            username: USERNAME,
+            password: PASSWORD
+        };
+
+        if (TWO_FACTOR === 'true' && TOTP_SECRET) {
+            const currentTOTP = speakeasy.totp({
+                secret: TOTP_SECRET,
+                encoding: 'base32',
+                window: 1
+            });
+            loginPayload.twoFactorCode = currentTOTP;
+        }
+
+
         const [loginResponse, suburl_content] = await Promise.all([
             fetchWithRetry(`${PROTOCOL}://${dvhost_host}:${dvhost_port}/${dvhost_path}/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: qs.stringify(dvhost_loginData),
+                body: qs.stringify(loginPayload),
             }),
             fetchUrlContent(`${SUBSCRIPTION}${targetSubId}`)
         ]);
