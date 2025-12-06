@@ -12,6 +12,219 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://ios.v4b.top/assets/css/main.css?ver=17374638191438" rel="stylesheet">
     <meta name="theme-color" content="#1c1f30">
+
+    <style>
+        /* پایه امن: محاسبه اندازه شامل padding و border شود */
+        *,
+        *::before,
+        *::after {
+        box-sizing: border-box;
+        }
+
+        /* حذف margin پیش‌فرض و تنظیم فونت/جهت */
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        direction: rtl;
+        background: #1c1f30; /* یا هر رنگی که داری */
+        }
+
+        /* مرکز کردن محتوا با flexbox و جلوگیری از اسکرول غیرضروری */
+        body {
+        display: flex;
+        align-items: center;      /* مرکز عمودی */
+        justify-content: center;  /* مرکز افقی */
+        min-height: 100vh;        /* ارتفاع حداقل برابر با ویوپورت */
+        overflow-x: hidden;       /* جلوگیری از اسکرول افقی نامطلوب */
+        }
+
+        /* کانتینر اصلی باید حداکثر عرض و حداقل فاصله داخل داشته باشد */
+        .container {
+        width: min(900px, 94%);   /* حداکثر 900px یا 94% صفحه */
+        max-height: calc(100vh - 40px); /* اگر محتوا زیاد شد، کارت داخل اسکرول شود */
+        overflow: auto;           /* درون کانتینر اسکرول شود نه کل صفحه */
+        padding: 24px;
+        border-radius: 14px;
+        /* بقیه استایل کارت */
+        }
+
+        /* اگر می‌خواهی textarea یا المان‌های بلند داخل کانتینر باعث اسکرول کل صفحه نشوند */
+        .copy-container, .info-box {
+        /* اجازه بده درون کانتینر اسکرول شوند در صورت نیاز */
+        overflow: visible;
+        }
+
+        /* ولی برای عناصر خاص (مثل textarea) ارتفاع معقول بگذار */
+        #copy-textarea {
+        max-height: 80px; /* جلوگیری از بزرگ شدن بیش از حد */
+        overflow: auto;
+        }
+
+        /* اگر مدال fixed است، باید خارج از جریان صفحه باشد و اسکرول ایجاد نکند */
+        .modal-overlay {
+        position: fixed;
+        inset: 0;
+        display: none; /* در حالت عادی غیر فعال */
+        }
+        .modal-overlay.active {
+        display: flex;
+        }
+
+        :root{
+            --bg-1: #0f1720;           /* اصلی */
+            --bg-2: #11151b;           /* تاریک‌تر */
+            --glass-1: rgba(255,255,255,0.04);
+            --glass-2: rgba(255,255,255,0.02);
+            --accent: #4cc9f0;         /* روشن */
+            --accent-2: #6be39b;       /* مکمل */
+            --gold: #ffd24a;
+            --muted: #bec5cc;
+            --card: rgba(255,255,255,0.03);
+            --radius:16px;
+        }
+
+        /* پایه */
+        html,body{height:100%; margin:0; padding:0; direction:rtl; font-family:"Yekan","Tahoma",sans-serif; -webkit-font-smoothing:antialiased; background:
+            radial-gradient(800px 400px at 10% 10%, rgba(76,201,240,0.05), transparent 8%),
+            linear-gradient(180deg,var(--bg-1),var(--bg-2));
+            color:#e6eef3;
+        }
+
+        /* مرکز صفحه با افکت شناور */
+        .container{
+            max-width:900px;
+            margin:64px auto;
+            padding:34px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:20px;
+            transform:translateY(0);
+        }
+
+        /* لوگو دایره‌ای با هاله نوری ملایم */
+        .logo{
+            width:120px; height:120px;
+            border-radius:999px;
+            display:flex; align-items:center; justify-content:center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+            box-shadow:
+                0 10px 30px rgba(2,6,23,0.7),
+                0 0 40px rgba(76,201,240,0.06);
+            border:1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(6px) saturate(120%);
+            transition: transform .28s cubic-bezier(.2,.9,.2,1);
+        }
+        .logo:hover{ transform: translateY(-6px) rotate(-6deg); }
+        .logo img{ border-radius: 100%; width:64%; height:64%; object-fit:contain; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.55)); }
+
+        /* عنوان چشم‌گیر */
+        h3{
+            margin:0; color:var(--gold); font-weight:800; font-size:20px;
+            text-align:center;
+            text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            letter-spacing:0.3px;
+        }
+
+        /* کارت کلی (glass card) */
+        .info-box{
+            width:100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            border-radius:var(--radius);
+            padding:16px;
+            box-shadow: 0 18px 50px rgba(3,7,18,0.7);
+            border: 1px solid rgba(255,255,255,0.03);
+            backdrop-filter: blur(8px) saturate(120%);
+            display:flex; flex-direction:column; gap:12px;
+        }
+
+        /* کادر کپی — استایل مدرن */
+        .copy-container{
+            display:flex; gap:12px; align-items:center;
+            padding:12px; border-radius:12px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(0,0,0,0.06));
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: box-shadow .18s ease, transform .12s ease;
+        }
+        .copy-container:focus-within{ box-shadow: 0 8px 28px rgba(76,201,240,0.08); transform: translateY(-3px); }
+
+        #copy-textarea{
+            width:100%; height:48px; resize:none; border:0; outline:none; background:transparent;
+            color:var(--muted); font-size:14px; direction:ltr; padding:6px 10px; border-radius:8px;
+        }
+
+        .copy-icon{
+            width:50px; height:50px; min-width:50px;
+            display:flex; align-items:center; justify-content:center; border-radius:12px;
+            cursor:pointer; transition: transform .14s ease, box-shadow .12s ease;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+            border: 1px solid rgba(255,255,255,0.02);
+            box-shadow: 0 8px 22px rgba(2,6,15,0.6);
+        }
+        .copy-icon i{ color:var(--muted); font-size:16px; }
+        .copy-icon:active{ transform: scale(.98); }
+
+        /* لیست آیتم‌ها — کارت‌های کوچک‌تر با لبه‌های منحنی */
+        .info-item{
+            display:flex; gap:14px; align-items:center; padding:12px;
+            border-radius:12px; background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: transform .14s ease, box-shadow .14s ease;
+        }
+        .info-item:hover{ transform:translateY(-6px); box-shadow: 0 16px 40px rgba(2,6,23,0.55); }
+
+        .info-item i{
+            width:52px; height:52px; min-width:52px; border-radius:12px; display:flex; align-items:center; justify-content:center;
+            font-size:18px; color:var(--accent);
+            background: linear-gradient(135deg, rgba(76,201,240,0.12), rgba(107,227,155,0.07));
+            border:1px solid rgba(255,255,255,0.02);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+        .info-item p{ margin:0; color:#e8eef3; font-size:15px; }
+
+        .info-item p small{ color:var(--muted); display:block; margin-top:6px; font-size:13px; }
+
+        /* دکمه‌ها مدرن با گرادیانت و آیکون — سایه نرم */
+        .action-buttons{ width:100%; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:6px; }
+        .action-btn{
+            display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:999px;
+            color:white; text-decoration:none; font-weight:700; box-shadow: 0 12px 34px rgba(3,7,18,0.6);
+            transition: transform .14s ease, box-shadow .14s ease;
+            border: 0;
+        }
+        .action-btn i{ font-size:16px; opacity:0.95; }
+
+        .action-btn:hover{ transform: translateY(-6px); }
+
+        .btn-telegram{ background: linear-gradient(90deg, #3aa0ff 0%, #0e66d6 100%); }
+        .btn-whatsapp{ background: linear-gradient(90deg, #34d058 0%, #12b24a 100%); }
+
+        /* افکت کوچک زیر کارت (divider) */
+        .info-box + .info-box{ margin-top:8px; }
+
+        /* مدال کپی با انیمیشن fade */
+        .modal-overlay{
+            position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+            background: rgba(2,6,15,0.55); opacity:0; pointer-events:none; transition: opacity .18s ease;
+        }
+        .modal-overlay.active{ opacity:1; pointer-events:auto; }
+        .modal{ background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.06));
+            padding:18px 22px; border-radius:12px; min-width:240px; text-align:center; border:1px solid rgba(255,255,255,0.02);
+            box-shadow: 0 20px 60px rgba(2,6,15,0.7); color:var(--muted);
+        }
+        .modal p{ margin:0 0 14px 0; font-weight:700; color:#dff6ff; }
+        .modal button{ background:var(--accent); color:#06202a; border:0; padding:8px 14px; border-radius:10px; cursor:pointer; font-weight:700; }
+
+        /* واکنشگرایی */
+        @media (max-width:720px){
+            .container{ margin:30px 18px; padding:20px; }
+            .logo{ width:98px; height:98px; }
+            .copy-icon{ width:46px; height:46px; min-width:46px; }
+            .info-item i{ width:46px; height:46px; min-width:46px; }
+        }
+    </style>
+
 </head>
 
 <body style="background: #1c1f30;">
